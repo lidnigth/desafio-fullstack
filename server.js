@@ -7,7 +7,7 @@ const db = require("./database.js");
 function inserirTarefa(nome) {
     const data = new Date().toISOString();
     db.run(
-        `INSERT INTO tarefas (nome, dataCriacao) VALUES (?, ?),`
+        `INSERT INTO tarefas (nome, dataCriacao) VALUES (?, ?)`,
         [nome, data],
         function(err) {
             if (err) {
@@ -29,8 +29,8 @@ function listarTarefas() {
     });
 }
 
-// inserirTarefa("Minha primeira tarefa");
-// listarTarefas();
+inserirTarefa("Minha primeira tarefa");
+listarTarefas();
 
 const PORT = process.env.PORT || 3000;
 
