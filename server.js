@@ -71,7 +71,7 @@ app.post("/tarefas", (req, res) => {
         });
     });
 
-app.delete("/tarefas/id:", (req, res) => {
+app.delete("/tarefas/:id", (req, res) => {
     const { id } = req.params;
 
     db.run("DELETE FROM tarefas WHERE id = ?", [id],
