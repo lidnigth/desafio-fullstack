@@ -20,10 +20,10 @@ O servidor rodará em: http://localhost:3000 (+ /tarefas)
 4. Abrir o frontend
 Abrir o arquivo html (frontend/index.html) no navegador (pode ser por meio da extensão Live Server do VSCode - Open with Live Server)
 
-## Observações sobre a configuração do Banco de Dados:
+## Observações adicionais e sobre a configuração do Banco de Dados:
 
 - O projeto usa **SQLite3**
 - Ao rodar o backend, o arquivo tarefas.bd será criado automaticamente
 - A tabela tarefas é criado caso não exista
 - Portanto, não é necessário comandos adicionais
-- A API possui três rotas: GET /tarefas, POST /tarefas e DELETE /tarefas/:id
+- A API possui quatro rotas: GET /tarefas, POST /tarefas, DELETE /tarefas/:id e PUT /tarefas/:id

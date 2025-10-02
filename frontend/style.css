@@ -25,7 +25,7 @@ input {
 button {
     padding: 8 px 16 px;
     background: #007bff;
-    color: #d1d1d1;
+    color: white;
     border: none;
     cursor: pointer;
     border-radius: 4px;
@@ -50,10 +50,31 @@ li {
     align-items: center;
 }
 
-li button {
-    background: red;
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li div {
+    display: flex;
+    gap: 6px;
+}
+
+.but-excluir {
+    background: rgb(170, 79, 79);
     font-size: 12px;
+    color: white;
     padding: 4px 8px;
 }
 
+.but-excluir:hover {
+    background: #ce0000;
+}
 
+.but-editar {
+    background: rgb(58, 101, 136);
+    font-size: 12px;
+    color: white;
+    padding: 4px 8px;
+}

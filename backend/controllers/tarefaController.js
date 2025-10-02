@@ -35,4 +35,18 @@ function deleteTarefa(req, res) {
   });
 }
 
-module.exports = { getTarefas, postTarefa, deleteTarefa };
+function putTarefa(req, res) {
+    const { nome } = req.body;
+    const { id } = req.params;
+
+  if (!nome || typeof nome !== "string" || nome.trim() === "") {
+    return res.status(400).json({ error: "O nome da tarefa é obrigatório" });
+  }
+
+  tarefaService.atualizarTarefa(id, nome.trim(), (err, tarefaAtualizada) => {
+    if (err) return res.status(500).json({ error: "Erro ao atualizar tarefa" });
+    res.status(200).json(tarefaAtualizada);
+  });
+}
+
+module.exports = { getTarefas, postTarefa, deleteTarefa, putTarefa };
