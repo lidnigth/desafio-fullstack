@@ -9,15 +9,39 @@ function inserirTarefa(nome, dataCriacao, callback) {
     "INSERT INTO tarefas (nome, dataCriacao) VALUES (?, ?)",
     [nome, dataCriacao],
     function (err) {
-      callback(err, { id: this.lastID, nome, dataCriacao });
+      if (err) return callback(err);
+      
+      callback(null, { id: this.lastID, nome, dataCriacao });
     }
   );
 }
 
 function deletarTarefa(id, callback) {
-  db.run("DELETE FROM tarefas WHERE id = ?", [id], function (err) {
-    callback(err, this.changes);
+  db.run("DELETE FROM tarefas WHERE id = ?",
+    [id],
+    function (err) {
+    if (err) return callback(err);
+    if (this.changes === 0) {
+      return callback(new Error("Tarefa não encontrada"));
+    }
+    callback(null, { id });
   });
 }
 
-module.exports = { listarTarefas, inserirTarefa, deletarTarefa };
+function atualizarTarefa(id, nome, callback) {
+  db.run(
+    "UPDATE tarefas SET nome = ? WHERE id = ?",
+    [nome, id],
+    function (err) {
+      if (err) return callback(err)
+
+      if (this.changes === 0) {
+        return callback(new Error("Tarefa não encontrada"));
+      }
+
+      callback(null, { id, nome });
+    }
+  );
+}
+
+module.exports = { listarTarefas, inserirTarefa, deletarTarefa, atualizarTarefa };
