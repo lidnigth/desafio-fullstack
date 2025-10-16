@@ -1,47 +1,52 @@
 const db = require("../database");
 
-function listarTarefas(callback) {
-  db.all("SELECT * FROM tarefas", callback);
-}
-
-function inserirTarefa(nome, dataCriacao, callback) {
-  db.run(
-    "INSERT INTO tarefas (nome, dataCriacao) VALUES (?, ?)",
-    [nome, dataCriacao],
-    function (err) {
-      if (err) return callback(err);
-      
-      callback(null, { id: this.lastID, nome, dataCriacao });
-    }
-  );
-}
-
-function deletarTarefa(id, callback) {
-  db.run("DELETE FROM tarefas WHERE id = ?",
-    [id],
-    function (err) {
-    if (err) return callback(err);
-    if (this.changes === 0) {
-      return callback(new Error("Tarefa não encontrada"));
-    }
-    callback(null, { id });
+function listarTarefas(req, res) {
+  return new Promise((resolve, reject) => {
+    db.all("SELECT * FROM tarefas", (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
   });
 }
 
-function atualizarTarefa(id, nome, callback) {
-  db.run(
-    "UPDATE tarefas SET nome = ? WHERE id = ?",
-    [nome, id],
-    function (err) {
-      if (err) return callback(err)
-
-      if (this.changes === 0) {
-        return callback(new Error("Tarefa não encontrada"));
+function inserirTarefa(nome, dataCriacao) {
+  return new Promise((resolve, reject) => {
+    db.run(
+      "INSERT INTO tarefas (nome, dataCriacao) VALUES (?, ?)",
+      [nome, dataCriacao],
+      function (err) {
+        if (err) reject(err);
+        else resolve({ id: this.lastID, nome, dataCriacao });
       }
-
-      callback(null, { id, nome });
-    }
-  );
+    );
+  });
 }
 
-module.exports = { listarTarefas, inserirTarefa, deletarTarefa, atualizarTarefa };
+function deletarTarefa(id) {
+  return new Promise((resolve, reject) => {
+    db.run("DELETE FROM tarefas WHERE id = ?", [id], function (err) {
+      if (err) reject(err);
+      else resolve(this.changes);
+    });
+  });
+}
+
+function atualizarTarefa(id, nome) {
+  return new Promise((resolve, reject) => {
+    db.run(
+      "UPDATE tarefas SET nome = ? WHERE id = ?",
+      [nome, id],
+      function (err) {
+        if (err) reject(err);
+        else resolve({ changes: this.changes });
+      }
+    );
+  });
+}
+
+module.exports = {
+  listarTarefas,
+  inserirTarefa,
+  deletarTarefa,
+  atualizarTarefa,
+};
