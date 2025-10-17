@@ -2,7 +2,7 @@ const tarefaService = require("../services/tarefaService");
 
 async function getTarefas(req, res) {
   try {
-    const rows = await tarefaService.listarTarefas;
+    const rows = await tarefaService.listarTarefas();
     res.json(rows);
   } catch (err) {
     return res.status(500).json({ error: "Erro ao buscar tarefas" });

@@ -37,8 +37,8 @@ function atualizarTarefa(id, nome) {
       "UPDATE tarefas SET nome = ? WHERE id = ?",
       [nome, id],
       function (err) {
-        if (err) reject(err);
-        else resolve({ changes: this.changes });
+        if (this.changes === 0) resolve(null);
+        else resolve({ id, nome });
       }
     );
   });
