@@ -37,8 +37,13 @@ function atualizarTarefa(id, nome) {
       "UPDATE tarefas SET nome = ? WHERE id = ?",
       [nome, id],
       function (err) {
+        if (err) return reject(err);
         if (this.changes === 0) resolve(null);
-        else resolve({ id, nome });
+
+        db.get("SELECT * FROM tarefas WHERE id = ?", [id], (err, row) => {
+          if (err) return reject(err);
+          resolve(row);
+        });
       }
     );
   });

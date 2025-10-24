@@ -5,7 +5,10 @@ function TarefasList({ tarefas, onDeletar, onEditar }) {
     <ul className="ul">
       {tarefas.map((tarefa) => (
         <li key={tarefa.id} className="li">
-          <span className="listinha">{tarefa.nome}</span>
+          <span className="listinha">
+            {tarefa.nome} -{" "}
+            {new Date(tarefa.dataCriacao).toLocaleDateString("pt-BR")}
+          </span>
           <div className="botoes">
             <button
               className="button"
